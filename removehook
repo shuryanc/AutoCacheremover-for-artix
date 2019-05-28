@@ -1,0 +1,4 @@
+#!/bin/sh
+yaycache="$(find /home/<user>/.cache/yay -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
+echo "==> Remove all uninstalled package folders"
+/usr/bin/paccache -ruvk0 $yaycache | sed '/\.cache\/yay/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev | xargs -rt rm -r
