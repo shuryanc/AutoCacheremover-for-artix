@@ -6,4 +6,4 @@ Target = *
 [Action]
 Description = Clearing cache...
 When = PostTransaction
-Exec = /home/<user>/.local/bin/tools/upgradehook
+Exec = /usr/share/libalpm/scripts/upgradehook
