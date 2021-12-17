@@ -6,4 +6,4 @@ Target = *
 [Action]
 Description = Clearing cache...
 When = PostTransaction
-Exec = /home/<user>/.local/bin/tools/removehook
+Exec = /usr/share/libalpm/scripts/removehook
