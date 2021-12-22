@@ -3,7 +3,7 @@
 HOME_DIR_NO=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $6}' /etc/passwd | wc -l)
 count=1
 echo "==> Keep last 2 installed versions"
-while [[ count != 2 ]]
+while [[ $count != $HOME_DIR_NO ]]
 do
   yayHOME=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $6}' /etc/passwd | head -n"$count" | tail -n1)
   temp="$(find "$yayHOME"/.cache/yay -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
@@ -14,6 +14,6 @@ do
       yaycache=$yaycache" "$temp
     fi
   fi
-  count=count+1
+  count=$((count+1))
 done
 /usr/bin/paccache -rvk2 -c /var/cache/pacman/pkg $yaycache
