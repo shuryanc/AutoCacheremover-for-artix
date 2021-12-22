@@ -1,5 +1,19 @@
 #!/bin/sh
-yaycache="$(find "$HOME"/.cache/yay -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
+HOME_DIR_NO=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $6}' /etc/passwd | wc -l)
+count=1
+while [[ count != $HOME_DIR_NO ]]
+do
+  yayHOME=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $6}' /etc/passwd | head -n"$count" | tail -n1)
+  temp="$(find "$yayHOME"/.cache/yay -maxdepth 1 -type d | awk '{ print "-c " $1 }' | tail -n +2)"
+  if [[ $temp != "" ]]; then
+    if [[ $yaycache == "" ]]; then
+      yaycache=$temp
+    else
+      yaycache=$yaycache" "$temp
+    fi
+  fi
+  count=$((count+1))
+done
 yayremoved=$(/usr/bin/paccache -ruvk0 $yaycache | sed '/\.cache\/yay/!d' | cut -d \' -f2 | rev | cut -d / -f2- | rev)
 [ -z $yayremoved ] || echo "==> Remove all uninstalled package folders" &&
 echo $yayremoved | xargs -rt rm -r
