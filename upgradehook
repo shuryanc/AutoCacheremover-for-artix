@@ -2,6 +2,7 @@
 
 HOME_DIR_NO=$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $6}' /etc/passwd | wc -l)
 count=1
+yaycache=""
 echo "==> Keep last 2 installed versions"
 while [[ $count != $HOME_DIR_NO ]]
 do
